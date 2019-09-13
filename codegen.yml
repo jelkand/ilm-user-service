@@ -8,5 +8,5 @@ generates:
       useIndexSignature: true
       # federation: true # when grabbing via introspection, we don't want this...
       typesPrefix: I
-      # mappers:
-      #   Post: ./src/db/models/#IPostDbObject
+      mappers:
+        User: ./src/db/models/#IUserDbObject

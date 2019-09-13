@@ -1,5 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { IUserDbObject } from './src/db/models/';
 export type Maybe<T> = T | null;
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string,
@@ -9,9 +11,48 @@ export type Scalars = {
   Float: number,
 };
 
+export type IMutation = {
+  __typename?: 'Mutation',
+  register?: Maybe<IUser>,
+  login?: Maybe<IUser>,
+  logout?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type IMutationRegisterArgs = {
+  email: Scalars['String'],
+  password: Scalars['String']
+};
+
+
+export type IMutationLoginArgs = {
+  email: Scalars['String'],
+  password: Scalars['String']
+};
+
+
+export type IMutationLogoutArgs = {
+  email: Scalars['String']
+};
+
 export type IQuery = {
   __typename?: 'Query',
-  hello?: Maybe<Scalars['String']>,
+  user?: Maybe<IUser>,
+};
+
+
+export type IQueryUserArgs = {
+  id: Scalars['ID']
+};
+
+export type IUser = {
+  __typename?: 'User',
+  id?: Maybe<Scalars['ID']>,
+  email?: Maybe<Scalars['String']>,
+  createdAt?: Maybe<Scalars['String']>,
+  updatedAt?: Maybe<Scalars['String']>,
+  token?: Maybe<Scalars['String']>,
+  password?: Maybe<Scalars['String']>,
 };
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -86,23 +127,46 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type IResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
+  ID: ResolverTypeWrapper<Scalars['ID']>,
+  User: ResolverTypeWrapper<IUserDbObject>,
   String: ResolverTypeWrapper<Scalars['String']>,
+  Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type IResolversParentTypes = ResolversObject<{
   Query: {},
+  ID: Scalars['ID'],
+  User: IUserDbObject,
   String: Scalars['String'],
+  Mutation: {},
   Boolean: Scalars['Boolean'],
 }>;
 
+export type IMutationResolvers<ContextType = any, ParentType extends IResolversParentTypes['Mutation'] = IResolversParentTypes['Mutation']> = ResolversObject<{
+  register?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IMutationRegisterArgs, 'email' | 'password'>>,
+  login?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IMutationLoginArgs, 'email' | 'password'>>,
+  logout?: Resolver<Maybe<IResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<IMutationLogoutArgs, 'email'>>,
+}>;
+
 export type IQueryResolvers<ContextType = any, ParentType extends IResolversParentTypes['Query'] = IResolversParentTypes['Query']> = ResolversObject<{
-  hello?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
+  user?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IQueryUserArgs, 'id'>>,
+}>;
+
+export type IUserResolvers<ContextType = any, ParentType extends IResolversParentTypes['User'] = IResolversParentTypes['User']> = ResolversObject<{
+  id?: Resolver<Maybe<IResolversTypes['ID']>, ParentType, ContextType>,
+  email?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
+  createdAt?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
+  updatedAt?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
+  token?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
+  password?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>,
 }>;
 
 export type IResolvers<ContextType = any> = ResolversObject<{
+  Mutation?: IMutationResolvers<ContextType>,
   Query?: IQueryResolvers<ContextType>,
+  User?: IUserResolvers<ContextType>,
 }>;
 
 
