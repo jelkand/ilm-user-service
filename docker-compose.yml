@@ -22,7 +22,7 @@ services:
       POSTRES_DB: dev-db
       POSTGRES_USER: jelkand
       POSTGRES_HOST: host.docker.internal
-
+      JWT_TOKEN_KEY: development
 
   ci:
     build:
@@ -41,6 +41,7 @@ services:
       POSTGRES_PASSWORD: fnord
       POSTRES_DB: fnord
       POSTGRES_USER: fnord
+      JWT_TOKEN_KEY: fnord
 
   db:
     image: postgres:11.5-alpine

@@ -12,7 +12,6 @@
     "noImplicitAny": true,
     "outDir": "dist",
     "resolveJsonModule": true,
-    "baseUrl": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },

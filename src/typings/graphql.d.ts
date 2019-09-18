@@ -32,7 +32,7 @@ export type IMutationLoginArgs = {
 
 
 export type IMutationLogoutArgs = {
-  email: Scalars['String']
+  userID: Scalars['ID']
 };
 
 export type IQuery = {
@@ -147,7 +147,7 @@ export type IResolversParentTypes = ResolversObject<{
 export type IMutationResolvers<ContextType = any, ParentType extends IResolversParentTypes['Mutation'] = IResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IMutationRegisterArgs, 'email' | 'password'>>,
   login?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IMutationLoginArgs, 'email' | 'password'>>,
-  logout?: Resolver<Maybe<IResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<IMutationLogoutArgs, 'email'>>,
+  logout?: Resolver<Maybe<IResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<IMutationLogoutArgs, 'userID'>>,
 }>;
 
 export type IQueryResolvers<ContextType = any, ParentType extends IResolversParentTypes['Query'] = IResolversParentTypes['Query']> = ResolversObject<{

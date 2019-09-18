@@ -7,6 +7,7 @@ declare global {
       POSTGRES_PASSWORD: string
       POSTGRES_HOST: string
       NODE_ENV: 'development' | 'production'
+      JWT_TOKEN_KEY: string
     }
   }
 }
