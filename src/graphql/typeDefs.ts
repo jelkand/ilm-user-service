@@ -7,7 +7,7 @@ export default gql`
   type Mutation {
     register(email: String!, password: String!): User
     login(email: String!, password: String!): User
-    logout(userID: ID!): Boolean
+    logout(token: String!): Boolean
   }
   type User {
     id: ID

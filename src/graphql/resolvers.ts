@@ -12,7 +12,7 @@ const queryResolver: IQueryResolvers = {
 const mutationResolver: IMutationResolvers = {
   register: async (obj, { email, password }, context, info) => User.create({ email, password }),
   login: async (obj, { email, password }, context, info) => User.login(email, password),
-  logout: async (obj, { userID }, context, info) => User.logout(userID),
+  logout: async (obj, { token }, context, info) => User.logout(token),
 }
 
 const userResolver: IUserResolvers = {
