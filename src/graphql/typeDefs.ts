@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express'
 export default gql`
   type Query {
     user(id: ID!): User
+    verifyToken(token: String!): AuthUser
   }
   type Mutation {
     register(email: String!, password: String!): User
@@ -12,9 +13,15 @@ export default gql`
   type User {
     id: ID
     email: String
+    isAdmin: Boolean
     createdAt: String
     updatedAt: String
-    token: String
-    password: String
+  }
+  type AuthUser {
+    jti: ID
+    id: ID
+    isAdmin: Boolean
+    iat: Int
+    exp: Int
   }
 `

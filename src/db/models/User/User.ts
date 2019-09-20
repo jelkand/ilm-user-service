@@ -56,12 +56,14 @@ export class User extends Model<User> {
 
   static async login(email: string, password: string): Promise<string | null> {
     const user = await this.findOne({ where: { email } })
-    const isValidLogin = user && await user.comparePassword(password)
-    return (user && isValidLogin) ? user.generateToken() : null
+    const isValidLogin = user && (await user.comparePassword(password))
+    return user && isValidLogin ? user.generateToken() : null
   }
 
   static async logout(token: string) {
-    const { jti } = <IAuthToken> jwt.verify(token, process.env.JWT_TOKEN_KEY, { ignoreExpiration: true })
+    const { jti } = <IAuthToken>(
+      jwt.verify(token, process.env.JWT_TOKEN_KEY, { ignoreExpiration: true })
+    )
     JTIBlacklist.create({ jti })
     return null
   }
@@ -71,14 +73,18 @@ export class User extends Model<User> {
   }
 
   generateToken() {
-    return jwt.sign({ jti: uuid(), user: { id: this.id, isAdmin: this.isAdmin }}, process.env.JWT_TOKEN_KEY, { expiresIn: '1d' })
+    return jwt.sign(
+      { jti: uuid(), userId: this.id, isAdmin: this.isAdmin },
+      process.env.JWT_TOKEN_KEY,
+      { expiresIn: '1d' },
+    )
   }
 
   static async verifyToken(token: string) {
-    const authToken = <IAuthToken> jwt.verify(token, process.env.JWT_TOKEN_KEY)
+    const authToken = <IAuthToken>jwt.verify(token, process.env.JWT_TOKEN_KEY)
     const isBlackListed = await JTIBlacklist.findByPk(authToken.jti)
     if (!!isBlackListed) {
-      throw('Token is blacklisted')
+      throw 'Token is blacklisted'
     }
     return authToken
   }

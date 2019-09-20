@@ -44,9 +44,7 @@ describe('User', () => {
     })
     const token = user.generateToken()
     expect(jwt.decode(token)).toMatchObject({
-      user: {
-        id: user.id,
-      },
+      userId: user.id,
     })
   })
   it('Should log in an existing user and generate a token', async () => {
@@ -56,10 +54,8 @@ describe('User', () => {
     expect(token).not.toBe(null)
     token &&
       expect(jwt.decode(token)).toMatchObject({
-        user: {
-          id: user.id,
-          isAdmin: user.isAdmin,
-        },
+        userId: user.id,
+        isAdmin: user.isAdmin,
       })
   })
   it('Should return null on a login for a non-existent user', async () => {
@@ -86,10 +82,8 @@ describe('User', () => {
     const token = user.generateToken()
     const verifiedToken = await User.verifyToken(token)
     expect(verifiedToken).toMatchObject({
-      user: {
-        id: user.id,
-        isAdmin: user.isAdmin,
-      },
+      userId: user.id,
+      isAdmin: user.isAdmin,
     })
   })
   it('Should fail verification with a blacklisted token', async () => {
