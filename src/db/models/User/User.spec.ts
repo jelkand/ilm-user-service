@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript'
 import jwt from 'jsonwebtoken'
 import { User } from './User'
-import { JTIBlacklist } from '../JTIBlacklist/JTIBlacklist'
+import { BlacklistedJTI } from '../BlacklistedJTI/BlacklistedJTI'
 import { IAuthToken } from '../../../typings/authToken'
 
 describe('User', () => {
@@ -9,7 +9,7 @@ describe('User', () => {
     const sequelize = new Sequelize({
       dialect: 'sqlite',
       storage: ':memory:',
-      models: [User, JTIBlacklist],
+      models: [User, BlacklistedJTI],
       logging: false,
     })
     await sequelize.sync()
@@ -74,7 +74,7 @@ describe('User', () => {
     const token = user.generateToken()
     token && User.logout(token)
     const decoded = token && <IAuthToken>jwt.decode(token)
-    decoded && expect(await JTIBlacklist.findByPk(decoded.jti)).not.toBe(null)
+    decoded && expect(await BlacklistedJTI.findByPk(decoded.jti)).not.toBe(null)
   })
   it('Should return an auth token on verification', async () => {
     const userInfo = { email: 'verifiable@example.com', password: 'password' }
@@ -91,7 +91,7 @@ describe('User', () => {
     const user = await User.create(userInfo)
     const token = user.generateToken()
     const decoded = token && <IAuthToken>jwt.decode(token)
-    decoded && JTIBlacklist.create({ jti: decoded.jti })
+    decoded && BlacklistedJTI.create({ jti: decoded.jti })
     const verifyBadToken = () => User.verifyToken(token)
     expect(verifyBadToken()).rejects.toThrow()
   })

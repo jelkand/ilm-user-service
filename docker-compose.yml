@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - '3000:3000'
+      - '3002:3000'
     networks:
       - service_net
     volumes:

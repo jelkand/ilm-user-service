@@ -10,7 +10,7 @@ import {
 import jwt from 'jsonwebtoken'
 
 @Table
-export class JTIBlacklist extends Model<JTIBlacklist> {
+export class BlacklistedJTI extends Model<BlacklistedJTI> {
   @PrimaryKey
   @Column
   jti!: string

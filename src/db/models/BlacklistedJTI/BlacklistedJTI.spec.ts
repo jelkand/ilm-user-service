@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize-typescript'
 import jwt from 'jsonwebtoken'
-import { JTIBlacklist } from './JTIBlacklist'
+import { BlacklistedJTI } from './BlacklistedJTI'
 
-describe('JTIBlacklist', () => {
+describe('BlacklistedJTI', () => {
   // beforeAll(async () => {
   //   const sequelize = new Sequelize({
   //     dialect: 'sqlite',
