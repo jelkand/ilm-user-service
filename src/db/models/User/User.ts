@@ -16,7 +16,7 @@ import {
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import uuid from 'uuid/v4'
-import { JTIBlacklist } from '../JTIBlacklist/JTIBlacklist'
+import { BlacklistedJTI } from '../BlacklistedJTI/BlacklistedJTI'
 import { IAuthToken } from '../../../typings/authToken'
 
 @Table
@@ -33,6 +33,12 @@ export class User extends Model<User> {
 
   @Column
   password!: string
+
+  @Column
+  firstName!: string
+
+  @Column
+  lastName!: string
 
   @Default(false)
   @Column
@@ -64,7 +70,7 @@ export class User extends Model<User> {
     const { jti } = <IAuthToken>(
       jwt.verify(token, process.env.JWT_TOKEN_KEY, { ignoreExpiration: true })
     )
-    JTIBlacklist.create({ jti })
+    BlacklistedJTI.create({ jti })
     return null
   }
 
@@ -82,7 +88,7 @@ export class User extends Model<User> {
 
   static async verifyToken(token: string) {
     const authToken = <IAuthToken>jwt.verify(token, process.env.JWT_TOKEN_KEY)
-    const isBlackListed = await JTIBlacklist.findByPk(authToken.jti)
+    const isBlackListed = await BlacklistedJTI.findByPk(authToken.jti)
     if (!!isBlackListed) {
       throw 'Token is blacklisted'
     }
