@@ -12,11 +12,11 @@ import resolvers from '../graphql/resolvers'
   })
 
   const app = express()
-  const port = process.env.port || 3000
+  const port = process.env.PORT || 3000
 
   server.applyMiddleware({ app })
 
   app.listen(port, () =>
-    console.log(`Typescript template app listening on port ${port}!`),
+    console.log(`ILM User Service listening on port ${port}!`),
   )
 })()

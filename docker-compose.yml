@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - '3002:3000'
+      - '3002:3002'
     networks:
       - service_net
     volumes:
@@ -18,18 +18,20 @@ services:
       - db
     environment:
       NODE_ENV: development
+      PORT: 3002
       POSTGRES_PASSWORD: dummypass
       POSTRES_DB: dev-db
       POSTGRES_USER: jelkand
-      POSTGRES_HOST: host.docker.internal
+      POSTGRES_HOST: db
       JWT_TOKEN_KEY: development
 
   ci:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ilm-user-service
     ports:
-      - '3000:3000'
+      - '3002:3002'
     networks:
       - service_net
     volumes:
@@ -37,6 +39,7 @@ services:
       - ./node_modules:/usr/src/app/node_modules
       - /usr/src/app/dist
     environment:
+      PORT: 3002
       NODE_ENV: production
       POSTGRES_PASSWORD: fnord
       POSTRES_DB: fnord
@@ -45,8 +48,10 @@ services:
 
   db:
     image: postgres:11.5-alpine
+    networks:
+      - service_net
     ports:
-      - '5432:5432'
+      - 5432
     environment:
       POSTGRES_PASSWORD: dummypass
       POSTRES_DB: dev-db
