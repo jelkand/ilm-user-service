@@ -13,14 +13,14 @@ services:
     volumes:
       - ./:/usr/src/app
       - ./node_modules:/usr/src/app/node_modules
-      - /usr/src/app/dist
+      - ./dist:/usr/src/app/dist
     depends_on:
       - db
     environment:
       NODE_ENV: development
       PORT: 3002
       POSTGRES_PASSWORD: dummypass
-      POSTRES_DB: dev-db
+      POSTGRES_DB: dev-db
       POSTGRES_USER: jelkand
       POSTGRES_HOST: db
       JWT_TOKEN_KEY: development
@@ -42,7 +42,7 @@ services:
       PORT: 3002
       NODE_ENV: production
       POSTGRES_PASSWORD: fnord
-      POSTRES_DB: fnord
+      POSTGRES_DB: fnord
       POSTGRES_USER: fnord
       JWT_TOKEN_KEY: fnord
 
@@ -54,7 +54,7 @@ services:
       - 5432
     environment:
       POSTGRES_PASSWORD: dummypass
-      POSTRES_DB: dev-db
+      POSTGRES_DB: dev-db
       POSTGRES_USER: jelkand
     volumes:
       - /var/lib/postgresql/data
