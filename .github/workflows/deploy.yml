@@ -16,7 +16,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ilm-user-service:$(date +%s)
     - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: jelkand/ilm-user-service
         username: ${{ secrets.DOCKER_USERNAME }}
